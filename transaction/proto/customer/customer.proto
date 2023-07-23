@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package customer;
+option go_package = "transaction/pb";
+message CustomerQueryRequest{
+  int32 ID = 1;
+}
+
+message Customer{
+  string ID = 1;
+  string Name = 2;
+}
+message CustomerResponse { Customer customer = 1; }
+
+
+message CustomerListResponse{
+  repeated CustomerResponse CustomerList = 1;
+}
+message TransactionListResponse { repeated Customer customers = 1; }
+
+service CustomerService {
+  rpc AddProduct(Customer) returns (CustomerResponse);
+  rpc FindCustomerByID (CustomerQueryRequest) returns (CustomerResponse);
+  rpc GetAllCustomers (CustomerQueryRequest) returns ( CustomerListResponse);
+}
