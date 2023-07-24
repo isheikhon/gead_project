@@ -1,7 +1,7 @@
 syntax = "proto3";
 import "google/protobuf/timestamp.proto";
 package transaction;
-option go_package = "transaction/pb";
+option go_package = "api/pb";
 message TransactionQueryRequest{
   string ID = 1;
 }
