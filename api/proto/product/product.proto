@@ -3,23 +3,25 @@ syntax = "proto3";
 package product;
 option go_package = "api/pb";
 
-  message ProductQueryRequest{
-  string ID = 1;
+  message FindProductByIDRequest{
+  string id = 1;
 }
 message Product{
-  string ID = 1;
-  string Name = 2;
-  int32 Price = 3;
+  string id = 1;
+  string name = 2;
+  int32 price = 3;
 }
-message ProductResponse { Product product = 1; }
-message AllProductQueryRequest{}
+message AddProductResponse { Product product = 1; }
+message FindProductByIDResponse { Product product = 1; }
+
+message GetAllProductsRequest{}
 
 
 
-message ProductListResponse { repeated Product products = 1; }
+message GetAllProductsResponse { repeated Product products = 1; }
 
 service ProductService {
-  rpc AddProduct(Product) returns (ProductResponse);
-  rpc FindProductByID (ProductQueryRequest) returns (ProductResponse);
-  rpc GetAllProducts (AllProductQueryRequest) returns (ProductListResponse);
+  rpc AddProduct(Product) returns (AddProductResponse);
+  rpc FindProductByID (FindProductByIDRequest) returns (FindProductByIDResponse);
+  rpc GetAllProducts (GetAllProductsRequest) returns (GetAllProductsResponse);
 }

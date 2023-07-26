@@ -28,9 +28,9 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type CustomerServiceClient interface {
-	AddCustomer(ctx context.Context, in *Customer, opts ...grpc.CallOption) (*CustomerResponse, error)
-	FindCustomerByID(ctx context.Context, in *CustomerQueryRequest, opts ...grpc.CallOption) (*CustomerResponse, error)
-	GetAllCustomers(ctx context.Context, in *AllCustomersQueryRequest, opts ...grpc.CallOption) (*CustomerListResponse, error)
+	AddCustomer(ctx context.Context, in *Customer, opts ...grpc.CallOption) (*AddCustomerResponse, error)
+	FindCustomerByID(ctx context.Context, in *FindCustomerByIDRequest, opts ...grpc.CallOption) (*FindCustomerByIDResponse, error)
+	GetAllCustomers(ctx context.Context, in *GetAllCustomersRequest, opts ...grpc.CallOption) (*GetAllCustomersResponse, error)
 }
 
 type customerServiceClient struct {
@@ -41,8 +41,8 @@ func NewCustomerServiceClient(cc grpc.ClientConnInterface) CustomerServiceClient
 	return &customerServiceClient{cc}
 }
 
-func (c *customerServiceClient) AddCustomer(ctx context.Context, in *Customer, opts ...grpc.CallOption) (*CustomerResponse, error) {
-	out := new(CustomerResponse)
+func (c *customerServiceClient) AddCustomer(ctx context.Context, in *Customer, opts ...grpc.CallOption) (*AddCustomerResponse, error) {
+	out := new(AddCustomerResponse)
 	err := c.cc.Invoke(ctx, CustomerService_AddCustomer_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -50,8 +50,8 @@ func (c *customerServiceClient) AddCustomer(ctx context.Context, in *Customer, o
 	return out, nil
 }
 
-func (c *customerServiceClient) FindCustomerByID(ctx context.Context, in *CustomerQueryRequest, opts ...grpc.CallOption) (*CustomerResponse, error) {
-	out := new(CustomerResponse)
+func (c *customerServiceClient) FindCustomerByID(ctx context.Context, in *FindCustomerByIDRequest, opts ...grpc.CallOption) (*FindCustomerByIDResponse, error) {
+	out := new(FindCustomerByIDResponse)
 	err := c.cc.Invoke(ctx, CustomerService_FindCustomerByID_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -59,8 +59,8 @@ func (c *customerServiceClient) FindCustomerByID(ctx context.Context, in *Custom
 	return out, nil
 }
 
-func (c *customerServiceClient) GetAllCustomers(ctx context.Context, in *AllCustomersQueryRequest, opts ...grpc.CallOption) (*CustomerListResponse, error) {
-	out := new(CustomerListResponse)
+func (c *customerServiceClient) GetAllCustomers(ctx context.Context, in *GetAllCustomersRequest, opts ...grpc.CallOption) (*GetAllCustomersResponse, error) {
+	out := new(GetAllCustomersResponse)
 	err := c.cc.Invoke(ctx, CustomerService_GetAllCustomers_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -72,9 +72,9 @@ func (c *customerServiceClient) GetAllCustomers(ctx context.Context, in *AllCust
 // All implementations must embed UnimplementedCustomerServiceServer
 // for forward compatibility
 type CustomerServiceServer interface {
-	AddCustomer(context.Context, *Customer) (*CustomerResponse, error)
-	FindCustomerByID(context.Context, *CustomerQueryRequest) (*CustomerResponse, error)
-	GetAllCustomers(context.Context, *AllCustomersQueryRequest) (*CustomerListResponse, error)
+	AddCustomer(context.Context, *Customer) (*AddCustomerResponse, error)
+	FindCustomerByID(context.Context, *FindCustomerByIDRequest) (*FindCustomerByIDResponse, error)
+	GetAllCustomers(context.Context, *GetAllCustomersRequest) (*GetAllCustomersResponse, error)
 	mustEmbedUnimplementedCustomerServiceServer()
 }
 
@@ -82,13 +82,13 @@ type CustomerServiceServer interface {
 type UnimplementedCustomerServiceServer struct {
 }
 
-func (UnimplementedCustomerServiceServer) AddCustomer(context.Context, *Customer) (*CustomerResponse, error) {
+func (UnimplementedCustomerServiceServer) AddCustomer(context.Context, *Customer) (*AddCustomerResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddCustomer not implemented")
 }
-func (UnimplementedCustomerServiceServer) FindCustomerByID(context.Context, *CustomerQueryRequest) (*CustomerResponse, error) {
+func (UnimplementedCustomerServiceServer) FindCustomerByID(context.Context, *FindCustomerByIDRequest) (*FindCustomerByIDResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindCustomerByID not implemented")
 }
-func (UnimplementedCustomerServiceServer) GetAllCustomers(context.Context, *AllCustomersQueryRequest) (*CustomerListResponse, error) {
+func (UnimplementedCustomerServiceServer) GetAllCustomers(context.Context, *GetAllCustomersRequest) (*GetAllCustomersResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAllCustomers not implemented")
 }
 func (UnimplementedCustomerServiceServer) mustEmbedUnimplementedCustomerServiceServer() {}
@@ -123,7 +123,7 @@ func _CustomerService_AddCustomer_Handler(srv interface{}, ctx context.Context, 
 }
 
 func _CustomerService_FindCustomerByID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CustomerQueryRequest)
+	in := new(FindCustomerByIDRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -135,13 +135,13 @@ func _CustomerService_FindCustomerByID_Handler(srv interface{}, ctx context.Cont
 		FullMethod: CustomerService_FindCustomerByID_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CustomerServiceServer).FindCustomerByID(ctx, req.(*CustomerQueryRequest))
+		return srv.(CustomerServiceServer).FindCustomerByID(ctx, req.(*FindCustomerByIDRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _CustomerService_GetAllCustomers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AllCustomersQueryRequest)
+	in := new(GetAllCustomersRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -153,7 +153,7 @@ func _CustomerService_GetAllCustomers_Handler(srv interface{}, ctx context.Conte
 		FullMethod: CustomerService_GetAllCustomers_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CustomerServiceServer).GetAllCustomers(ctx, req.(*AllCustomersQueryRequest))
+		return srv.(CustomerServiceServer).GetAllCustomers(ctx, req.(*GetAllCustomersRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }

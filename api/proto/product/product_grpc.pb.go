@@ -28,9 +28,9 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ProductServiceClient interface {
-	AddProduct(ctx context.Context, in *Product, opts ...grpc.CallOption) (*ProductResponse, error)
-	FindProductByID(ctx context.Context, in *ProductQueryRequest, opts ...grpc.CallOption) (*ProductResponse, error)
-	GetAllProducts(ctx context.Context, in *AllProductQueryRequest, opts ...grpc.CallOption) (*ProductListResponse, error)
+	AddProduct(ctx context.Context, in *Product, opts ...grpc.CallOption) (*AddProductResponse, error)
+	FindProductByID(ctx context.Context, in *FindProductByIDRequest, opts ...grpc.CallOption) (*FindProductByIDResponse, error)
+	GetAllProducts(ctx context.Context, in *GetAllProductsRequest, opts ...grpc.CallOption) (*GetAllProductsResponse, error)
 }
 
 type productServiceClient struct {
@@ -41,8 +41,8 @@ func NewProductServiceClient(cc grpc.ClientConnInterface) ProductServiceClient {
 	return &productServiceClient{cc}
 }
 
-func (c *productServiceClient) AddProduct(ctx context.Context, in *Product, opts ...grpc.CallOption) (*ProductResponse, error) {
-	out := new(ProductResponse)
+func (c *productServiceClient) AddProduct(ctx context.Context, in *Product, opts ...grpc.CallOption) (*AddProductResponse, error) {
+	out := new(AddProductResponse)
 	err := c.cc.Invoke(ctx, ProductService_AddProduct_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -50,8 +50,8 @@ func (c *productServiceClient) AddProduct(ctx context.Context, in *Product, opts
 	return out, nil
 }
 
-func (c *productServiceClient) FindProductByID(ctx context.Context, in *ProductQueryRequest, opts ...grpc.CallOption) (*ProductResponse, error) {
-	out := new(ProductResponse)
+func (c *productServiceClient) FindProductByID(ctx context.Context, in *FindProductByIDRequest, opts ...grpc.CallOption) (*FindProductByIDResponse, error) {
+	out := new(FindProductByIDResponse)
 	err := c.cc.Invoke(ctx, ProductService_FindProductByID_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -59,8 +59,8 @@ func (c *productServiceClient) FindProductByID(ctx context.Context, in *ProductQ
 	return out, nil
 }
 
-func (c *productServiceClient) GetAllProducts(ctx context.Context, in *AllProductQueryRequest, opts ...grpc.CallOption) (*ProductListResponse, error) {
-	out := new(ProductListResponse)
+func (c *productServiceClient) GetAllProducts(ctx context.Context, in *GetAllProductsRequest, opts ...grpc.CallOption) (*GetAllProductsResponse, error) {
+	out := new(GetAllProductsResponse)
 	err := c.cc.Invoke(ctx, ProductService_GetAllProducts_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -72,9 +72,9 @@ func (c *productServiceClient) GetAllProducts(ctx context.Context, in *AllProduc
 // All implementations must embed UnimplementedProductServiceServer
 // for forward compatibility
 type ProductServiceServer interface {
-	AddProduct(context.Context, *Product) (*ProductResponse, error)
-	FindProductByID(context.Context, *ProductQueryRequest) (*ProductResponse, error)
-	GetAllProducts(context.Context, *AllProductQueryRequest) (*ProductListResponse, error)
+	AddProduct(context.Context, *Product) (*AddProductResponse, error)
+	FindProductByID(context.Context, *FindProductByIDRequest) (*FindProductByIDResponse, error)
+	GetAllProducts(context.Context, *GetAllProductsRequest) (*GetAllProductsResponse, error)
 	mustEmbedUnimplementedProductServiceServer()
 }
 
@@ -82,13 +82,13 @@ type ProductServiceServer interface {
 type UnimplementedProductServiceServer struct {
 }
 
-func (UnimplementedProductServiceServer) AddProduct(context.Context, *Product) (*ProductResponse, error) {
+func (UnimplementedProductServiceServer) AddProduct(context.Context, *Product) (*AddProductResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddProduct not implemented")
 }
-func (UnimplementedProductServiceServer) FindProductByID(context.Context, *ProductQueryRequest) (*ProductResponse, error) {
+func (UnimplementedProductServiceServer) FindProductByID(context.Context, *FindProductByIDRequest) (*FindProductByIDResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindProductByID not implemented")
 }
-func (UnimplementedProductServiceServer) GetAllProducts(context.Context, *AllProductQueryRequest) (*ProductListResponse, error) {
+func (UnimplementedProductServiceServer) GetAllProducts(context.Context, *GetAllProductsRequest) (*GetAllProductsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAllProducts not implemented")
 }
 func (UnimplementedProductServiceServer) mustEmbedUnimplementedProductServiceServer() {}
@@ -123,7 +123,7 @@ func _ProductService_AddProduct_Handler(srv interface{}, ctx context.Context, de
 }
 
 func _ProductService_FindProductByID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ProductQueryRequest)
+	in := new(FindProductByIDRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -135,13 +135,13 @@ func _ProductService_FindProductByID_Handler(srv interface{}, ctx context.Contex
 		FullMethod: ProductService_FindProductByID_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProductServiceServer).FindProductByID(ctx, req.(*ProductQueryRequest))
+		return srv.(ProductServiceServer).FindProductByID(ctx, req.(*FindProductByIDRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _ProductService_GetAllProducts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AllProductQueryRequest)
+	in := new(GetAllProductsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -153,7 +153,7 @@ func _ProductService_GetAllProducts_Handler(srv interface{}, ctx context.Context
 		FullMethod: ProductService_GetAllProducts_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProductServiceServer).GetAllProducts(ctx, req.(*AllProductQueryRequest))
+		return srv.(ProductServiceServer).GetAllProducts(ctx, req.(*GetAllProductsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }

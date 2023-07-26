@@ -2,20 +2,21 @@ syntax = "proto3";
 
 package customer;
 option go_package = "api/pb";
-message CustomerQueryRequest{
-  string ID = 1;
+message FindCustomerByIDRequest{
+  string id = 1;
 }
 
 message Customer{
-  string ID = 1;
-  string Name = 2;
+  string id = 1;
+  string name = 2;
 }
-message CustomerResponse { Customer customer = 1; }
-message AllCustomersQueryRequest{}
-message CustomerListResponse { repeated Customer customers = 1; }
+message AddCustomerResponse { Customer customer = 1; }
+message GetAllCustomersRequest{}
+message GetAllCustomersResponse { repeated Customer customers = 1; }
+message FindCustomerByIDResponse { repeated Customer customers = 1; }
 
 service CustomerService {
-  rpc AddCustomer(Customer) returns (CustomerResponse);
-  rpc FindCustomerByID (CustomerQueryRequest) returns (CustomerResponse);
-  rpc GetAllCustomers (AllCustomersQueryRequest) returns ( CustomerListResponse);
+  rpc AddCustomer(Customer) returns (AddCustomerResponse);
+  rpc FindCustomerByID (FindCustomerByIDRequest) returns (FindCustomerByIDResponse);
+  rpc GetAllCustomers (GetAllCustomersRequest) returns ( GetAllCustomersResponse);
 }

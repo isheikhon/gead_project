@@ -2,34 +2,36 @@ syntax = "proto3";
 import "google/protobuf/timestamp.proto";
 package transaction;
 option go_package = "api/pb";
-message TransactionQueryRequest{
-  string ID = 1;
+message FindTransactionByIDRequest{
+  string id = 1;
 }
-message AllTransactionQueryRequest{}
+message GetAllTransactionResponse{}
 
 message Transaction{
-  string ID = 1;
-  string Name = 2;
-  int32 TotalPrice = 3;
-  string ProductID = 4;
-  string CustomerID = 5;
-  int32 Quantity = 6;
+  string id = 1;
+  string name = 2;
+  int32 total_price = 3;
+  string product_id = 4;
+  string customer_id = 5;
+  int32 quantity = 6;
   google.protobuf.Timestamp created_at = 7;
 
 }
 
-message TransactionResponse {
+message AddTransactionResponse {
+  Transaction transaction = 1;
+}
+message FindTransactionByIDResponse {
   Transaction transaction = 1;
 }
 
 
-
-message TransactionListResponse { repeated Transaction transactions = 1; }
+message GetAllTransactionRequest { repeated Transaction transactions = 1; }
 
 
 service TransactionService {
-  rpc AddTransaction(Transaction) returns (TransactionResponse);
-  rpc FindTransactionByID (TransactionQueryRequest) returns (TransactionResponse);
-  rpc GetAllTransaction (AllTransactionQueryRequest) returns (TransactionListResponse);
+  rpc AddTransaction(Transaction) returns (AddTransactionResponse);
+  rpc FindTransactionByID (FindTransactionByIDRequest) returns (FindTransactionByIDResponse);
+  rpc GetAllTransaction (GetAllTransactionRequest) returns (GetAllTransactionResponse);
 }
 

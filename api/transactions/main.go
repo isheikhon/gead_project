@@ -4,7 +4,6 @@ import (
 	"context"
 	"flag"
 	"fmt"
-	_ "github.com/lib/pq"
 	"google.golang.org/grpc"
 	"log"
 	"net"
@@ -17,7 +16,7 @@ var (
 )
 
 type server struct {
-	transaction.UnimplementedTransactionServiceServer
+	transaction.TransactionServiceServer
 }
 
 func (s *server) AddTransaction(ctx context.Context, req *transaction.Transaction) (*transaction.TransactionResponse, error) {

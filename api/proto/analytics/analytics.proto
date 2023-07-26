@@ -19,14 +19,14 @@ message GetTotalSalesRequest{}
 message GetSalesByProductRequest{}
 message GetTopCustomersRequest{}
 
-message TotalSalesResponse { TotalSales sales = 1; }
-message TopCustomerResponse { repeated Customer customers = 1; }
-message ProductSalesResponse { repeated Product products = 1; }
+message GetTotalSalesResponse { TotalSales sales = 1; }
+message GetTopCustomersResponse { repeated Customer customers = 1; }
+message GetSalesByProductResponse { repeated Product products = 1; }
 
 
 
 service CustomerService {
-  rpc GetTotalSales(GetTotalSalesRequest) returns (TotalSalesResponse);
-  rpc GetSalesByProduct(GetSalesByProductRequest) returns (ProductSalesResponse);
-  rpc GetTopCustomers(GetTopCustomersRequest) returns ( TopCustomerResponse);
+  rpc GetTotalSales(GetTotalSalesRequest) returns (GetTotalSalesResponse);
+  rpc GetSalesByProduct(GetSalesByProductRequest) returns (GetSalesByProductResponse);
+  rpc GetTopCustomers(GetTopCustomersRequest) returns ( GetTopCustomersResponse);
 }

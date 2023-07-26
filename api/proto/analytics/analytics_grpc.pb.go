@@ -28,9 +28,9 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type CustomerServiceClient interface {
-	GetTotalSales(ctx context.Context, in *GetTotalSalesRequest, opts ...grpc.CallOption) (*TotalSalesResponse, error)
-	GetSalesByProduct(ctx context.Context, in *GetSalesByProductRequest, opts ...grpc.CallOption) (*ProductSalesResponse, error)
-	GetTopCustomers(ctx context.Context, in *GetTopCustomersRequest, opts ...grpc.CallOption) (*TopCustomerResponse, error)
+	GetTotalSales(ctx context.Context, in *GetTotalSalesRequest, opts ...grpc.CallOption) (*GetTotalSalesResponse, error)
+	GetSalesByProduct(ctx context.Context, in *GetSalesByProductRequest, opts ...grpc.CallOption) (*GetSalesByProductResponse, error)
+	GetTopCustomers(ctx context.Context, in *GetTopCustomersRequest, opts ...grpc.CallOption) (*GetTopCustomersResponse, error)
 }
 
 type customerServiceClient struct {
@@ -41,8 +41,8 @@ func NewCustomerServiceClient(cc grpc.ClientConnInterface) CustomerServiceClient
 	return &customerServiceClient{cc}
 }
 
-func (c *customerServiceClient) GetTotalSales(ctx context.Context, in *GetTotalSalesRequest, opts ...grpc.CallOption) (*TotalSalesResponse, error) {
-	out := new(TotalSalesResponse)
+func (c *customerServiceClient) GetTotalSales(ctx context.Context, in *GetTotalSalesRequest, opts ...grpc.CallOption) (*GetTotalSalesResponse, error) {
+	out := new(GetTotalSalesResponse)
 	err := c.cc.Invoke(ctx, CustomerService_GetTotalSales_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -50,8 +50,8 @@ func (c *customerServiceClient) GetTotalSales(ctx context.Context, in *GetTotalS
 	return out, nil
 }
 
-func (c *customerServiceClient) GetSalesByProduct(ctx context.Context, in *GetSalesByProductRequest, opts ...grpc.CallOption) (*ProductSalesResponse, error) {
-	out := new(ProductSalesResponse)
+func (c *customerServiceClient) GetSalesByProduct(ctx context.Context, in *GetSalesByProductRequest, opts ...grpc.CallOption) (*GetSalesByProductResponse, error) {
+	out := new(GetSalesByProductResponse)
 	err := c.cc.Invoke(ctx, CustomerService_GetSalesByProduct_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -59,8 +59,8 @@ func (c *customerServiceClient) GetSalesByProduct(ctx context.Context, in *GetSa
 	return out, nil
 }
 
-func (c *customerServiceClient) GetTopCustomers(ctx context.Context, in *GetTopCustomersRequest, opts ...grpc.CallOption) (*TopCustomerResponse, error) {
-	out := new(TopCustomerResponse)
+func (c *customerServiceClient) GetTopCustomers(ctx context.Context, in *GetTopCustomersRequest, opts ...grpc.CallOption) (*GetTopCustomersResponse, error) {
+	out := new(GetTopCustomersResponse)
 	err := c.cc.Invoke(ctx, CustomerService_GetTopCustomers_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -72,9 +72,9 @@ func (c *customerServiceClient) GetTopCustomers(ctx context.Context, in *GetTopC
 // All implementations must embed UnimplementedCustomerServiceServer
 // for forward compatibility
 type CustomerServiceServer interface {
-	GetTotalSales(context.Context, *GetTotalSalesRequest) (*TotalSalesResponse, error)
-	GetSalesByProduct(context.Context, *GetSalesByProductRequest) (*ProductSalesResponse, error)
-	GetTopCustomers(context.Context, *GetTopCustomersRequest) (*TopCustomerResponse, error)
+	GetTotalSales(context.Context, *GetTotalSalesRequest) (*GetTotalSalesResponse, error)
+	GetSalesByProduct(context.Context, *GetSalesByProductRequest) (*GetSalesByProductResponse, error)
+	GetTopCustomers(context.Context, *GetTopCustomersRequest) (*GetTopCustomersResponse, error)
 	mustEmbedUnimplementedCustomerServiceServer()
 }
 
@@ -82,13 +82,13 @@ type CustomerServiceServer interface {
 type UnimplementedCustomerServiceServer struct {
 }
 
-func (UnimplementedCustomerServiceServer) GetTotalSales(context.Context, *GetTotalSalesRequest) (*TotalSalesResponse, error) {
+func (UnimplementedCustomerServiceServer) GetTotalSales(context.Context, *GetTotalSalesRequest) (*GetTotalSalesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTotalSales not implemented")
 }
-func (UnimplementedCustomerServiceServer) GetSalesByProduct(context.Context, *GetSalesByProductRequest) (*ProductSalesResponse, error) {
+func (UnimplementedCustomerServiceServer) GetSalesByProduct(context.Context, *GetSalesByProductRequest) (*GetSalesByProductResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetSalesByProduct not implemented")
 }
-func (UnimplementedCustomerServiceServer) GetTopCustomers(context.Context, *GetTopCustomersRequest) (*TopCustomerResponse, error) {
+func (UnimplementedCustomerServiceServer) GetTopCustomers(context.Context, *GetTopCustomersRequest) (*GetTopCustomersResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTopCustomers not implemented")
 }
 func (UnimplementedCustomerServiceServer) mustEmbedUnimplementedCustomerServiceServer() {}
