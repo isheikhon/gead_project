@@ -1,10 +1,10 @@
 syntax = "proto3";
 
 package product;
-option go_package = "transaction/pb";
+option go_package = "api/pb";
 
-message ProductQueryRequest{
-  int32 ID = 1;
+  message ProductQueryRequest{
+  string ID = 1;
 }
 message Product{
   string ID = 1;
@@ -12,6 +12,7 @@ message Product{
   int32 Price = 3;
 }
 message ProductResponse { Product product = 1; }
+message AllProductQueryRequest{}
 
 
 
@@ -20,5 +21,5 @@ message ProductListResponse { repeated Product products = 1; }
 service ProductService {
   rpc AddProduct(Product) returns (ProductResponse);
   rpc FindProductByID (ProductQueryRequest) returns (ProductResponse);
-  rpc GetAllProducts (ProductQueryRequest) returns (ProductListResponse);
+  rpc GetAllProducts (AllProductQueryRequest) returns (ProductListResponse);
 }

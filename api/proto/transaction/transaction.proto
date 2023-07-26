@@ -6,6 +6,7 @@ message TransactionQueryRequest{
   string ID = 1;
 }
 message AllTransactionQueryRequest{}
+
 message Transaction{
   string ID = 1;
   string Name = 2;
@@ -16,7 +17,10 @@ message Transaction{
   google.protobuf.Timestamp created_at = 7;
 
 }
-message TransactionResponse { Transaction transaction = 1; }
+
+message TransactionResponse {
+  Transaction transaction = 1;
+}
 
 
 
