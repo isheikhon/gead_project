@@ -9,17 +9,17 @@ import (
 
 var db, err = sql.Open("postgres", "postgresql://root@localhost:26258/defaultdb?sslmode=disable")
 
-func DBGetTotalSales() (*analytics.TotalSalesResponse, error) {
+func DBGetTotalSales() (*analytics.GetTotalSalesResponse, error) {
 	ts := analytics.TotalSales{}
 	query := "SELECT SUM(totalprice) FROM transaction"
 	err := db.QueryRow(query).Scan(&ts.Sales)
 	if err != nil {
 		panic(err)
 	}
-	return &analytics.TotalSalesResponse{Sales: &analytics.TotalSales{Sales: ts.Sales}}, nil
+	return &analytics.GetTotalSalesResponse{Sales: &analytics.TotalSales{Sales: ts.Sales}}, nil
 }
 
-func DBGetSalesByProduct() (*analytics.ProductSalesResponse, error) {
+func DBGetSalesByProduct() (*analytics.GetSalesByProductResponse, error) {
 	log.Printf("Inserting a Row in to DB")
 	var products []*analytics.Product
 	//Inserting a Row in to DB.
@@ -36,14 +36,14 @@ func DBGetSalesByProduct() (*analytics.ProductSalesResponse, error) {
 	if err != nil {
 		panic(err)
 	}
-	return &analytics.ProductSalesResponse{Products: products}, nil
+	return &analytics.GetSalesByProductResponse{Products: products}, nil
 }
 
-func DBGetTopCustomers() (*analytics.TopCustomerResponse, error) {
+func DBGetTopCustomers() (*analytics.GetTopCustomersResponse, error) {
 	log.Printf("Inserting a Row in to DB")
 	var customers []*analytics.Customer
 	//Inserting a Row in to DB.
-	query := "SELECT transaction.customerid,SUM(transaction.totalprice), customer.name FROM transaction,customer GROUP BY transaction.customerid,customer.name LIMIT 5;"
+	query := "SELECT transaction.customerid,SUM(transaction.totalprice), customer.name FROM transaction,customer GROUP BY transaction.customerid,customer.name LIMIT 5 |DESC;"
 	rows, err := db.Query(query)
 	if err != nil {
 		panic(err)
@@ -56,5 +56,5 @@ func DBGetTopCustomers() (*analytics.TopCustomerResponse, error) {
 	if err != nil {
 		panic(err)
 	}
-	return &analytics.TopCustomerResponse{Customers: customers}, nil
+	return &analytics.GetTopCustomersResponse{Customers: customers}, nil
 }

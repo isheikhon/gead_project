@@ -20,16 +20,16 @@ type server struct {
 	customer.UnimplementedCustomerServiceServer
 }
 
-func (s *server) AddCustomer(ctx context.Context, req *customer.Customer) (*customer.CustomerResponse, error) {
+func (s *server) AddCustomer(ctx context.Context, req *customer.Customer) (*customer.AddCustomerResponse, error) {
 	log.Printf("Received request: %v", req.ProtoReflect().Descriptor().FullName())
 	return database_.DBAddCustomer(req)
 }
-func (s *server) GetAllCustomers(ctx context.Context, req *customer.AllCustomersQueryRequest) (*customer.CustomerListResponse, error) {
+func (s *server) GetAllCustomers(ctx context.Context, req *customer.GetAllCustomersRequest) (*customer.GetAllCustomersResponse, error) {
 	log.Printf("Received request: %v", req.ProtoReflect().Descriptor().FullName())
 	return database_.DBGetAllCustomer(req)
 }
 
-func (s *server) FindCustomerByID(ctx context.Context, req *customer.CustomerQueryRequest) (*customer.CustomerResponse, error) {
+func (s *server) FindCustomerByID(ctx context.Context, req *customer.FindCustomerByIDRequest) (*customer.FindCustomerByIDResponse, error) {
 	log.Printf("Received request: %v", req.ProtoReflect().Descriptor().FullName())
 	return database_.DBGetCustomerByID(req)
 }

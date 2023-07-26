@@ -13,7 +13,7 @@ message Customer{
 message AddCustomerResponse { Customer customer = 1; }
 message GetAllCustomersRequest{}
 message GetAllCustomersResponse { repeated Customer customers = 1; }
-message FindCustomerByIDResponse { repeated Customer customers = 1; }
+message FindCustomerByIDResponse { Customer customer = 1;  }
 
 service CustomerService {
   rpc AddCustomer(Customer) returns (AddCustomerResponse);

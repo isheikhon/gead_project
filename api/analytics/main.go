@@ -19,17 +19,17 @@ type server struct {
 	analytics.UnimplementedCustomerServiceServer
 }
 
-func (s *server) GetTotalSales(ctx context.Context, req *analytics.GetTotalSalesRequest) (*analytics.TotalSalesResponse, error) {
+func (s *server) GetTotalSales(ctx context.Context, req *analytics.GetTotalSalesRequest) (*analytics.GetTotalSalesResponse, error) {
 	log.Printf("Received request: %v", req.ProtoReflect().Descriptor().FullName())
 	return database.DBGetTotalSales()
 }
 
-func (s *server) GetSalesByProduct(ctx context.Context, req *analytics.GetSalesByProductRequest) (*analytics.ProductSalesResponse, error) {
+func (s *server) GetSalesByProduct(ctx context.Context, req *analytics.GetSalesByProductRequest) (*analytics.GetSalesByProductResponse, error) {
 	log.Printf("Received request: %v", req.ProtoReflect().Descriptor().FullName())
 	return database.DBGetSalesByProduct()
 }
 
-func (s *server) GetTopCustomers(ctx context.Context, req *analytics.GetTopCustomersRequest) (*analytics.TopCustomerResponse, error) {
+func (s *server) GetTopCustomers(ctx context.Context, req *analytics.GetTopCustomersRequest) (*analytics.GetTopCustomersResponse, error) {
 	log.Printf("Received request: %v", req.ProtoReflect().Descriptor().FullName())
 	return database.DBGetTopCustomers()
 }

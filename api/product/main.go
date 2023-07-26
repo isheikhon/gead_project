@@ -19,17 +19,17 @@ type server struct {
 	product.UnimplementedProductServiceServer
 }
 
-func (s *server) AddProduct(ctx context.Context, req *product.Product) (*product.ProductResponse, error) {
+func (s *server) AddProduct(ctx context.Context, req *product.Product) (*product.AddProductResponse, error) {
 	log.Printf("Received request: %v", req.ProtoReflect().Descriptor().FullName())
 	return database_.DBAddProduct(req)
 }
 
-func (s *server) GetAllProducts(ctx context.Context, req *product.AllProductQueryRequest) (*product.ProductListResponse, error) {
+func (s *server) GetAllProducts(ctx context.Context, req *product.GetAllProductsRequest) (*product.GetAllProductsResponse, error) {
 	log.Printf("Received request: %v", req.ProtoReflect().Descriptor().FullName())
 	return database_.DBGetAllProducts(req)
 }
 
-func (s *server) FindProductByID(ctx context.Context, req *product.ProductQueryRequest) (*product.ProductResponse, error) {
+func (s *server) FindProductByID(ctx context.Context, req *product.FindProductByIDRequest) (*product.FindProductByIDResponse, error) {
 	log.Printf("Received request: %v", req.ProtoReflect().Descriptor().FullName())
 	return database_.DBGetProductByID(req)
 }

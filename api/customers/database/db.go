@@ -10,17 +10,17 @@ import (
 
 var db, err = sql.Open("postgres", "postgresql://root@localhost:26258/defaultdb?sslmode=disable")
 
-func DBGetCustomerByID(req *customer.CustomerQueryRequest) (*customer.CustomerResponse, error) {
+func DBGetCustomerByID(req *customer.FindCustomerByIDRequest) (*customer.FindCustomerByIDResponse, error) {
 	cr := customer.Customer{}
 	query := "SELECT * FROM customer where id = $1"
-	err := db.QueryRow(query, req.ID).Scan(&cr.ID, &cr.Name)
+	err := db.QueryRow(query, req.Id).Scan(&cr.Id, &cr.Name)
 	if err != nil {
 		panic(err)
 	}
-	return &customer.CustomerResponse{Customer: &customer.Customer{ID: cr.ID, Name: cr.Name}}, nil
+	return &customer.FindCustomerByIDResponse{Customer: &customer.Customer{Id: cr.Id, Name: cr.Name}}, nil
 }
 
-func DBAddCustomer(req *customer.Customer) (*customer.CustomerResponse, error) {
+func DBAddCustomer(req *customer.Customer) (*customer.AddCustomerResponse, error) {
 	log.Printf("Inserting a Row in to DB")
 	var UUID = uuid.New().String()
 	//Inserting a Row in to DB.
@@ -29,10 +29,10 @@ func DBAddCustomer(req *customer.Customer) (*customer.CustomerResponse, error) {
 	if err != nil {
 		panic(err)
 	}
-	return &customer.CustomerResponse{Customer: &customer.Customer{ID: UUID, Name: req.Name}}, nil
+	return &customer.AddCustomerResponse{Customer: &customer.Customer{Id: UUID, Name: req.Name}}, nil
 }
 
-func DBGetAllCustomer(req *customer.AllCustomersQueryRequest) (*customer.CustomerListResponse, error) {
+func DBGetAllCustomer(req *customer.GetAllCustomersRequest) (*customer.GetAllCustomersResponse, error) {
 	var customers []*customer.Customer
 	query := "SELECT * FROM customer"
 	rows, err := db.Query(query)
@@ -41,9 +41,9 @@ func DBGetAllCustomer(req *customer.AllCustomersQueryRequest) (*customer.Custome
 	}
 	for rows.Next() {
 		cr := customer.Customer{}
-		rows.Scan(&cr.ID, &cr.Name)
-		customers = append(customers, &customer.Customer{ID: cr.ID, Name: cr.Name})
+		rows.Scan(&cr.Id, &cr.Name)
+		customers = append(customers, &customer.Customer{Id: cr.Id, Name: cr.Name})
 	}
 	log.Printf("Received request: %v", req.ProtoReflect().Descriptor().FullName())
-	return &customer.CustomerListResponse{Customers: customers}, nil
+	return &customer.GetAllCustomersResponse{Customers: customers}, nil
 }
