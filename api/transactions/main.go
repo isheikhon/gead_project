@@ -19,15 +19,15 @@ type server struct {
 	transaction.TransactionServiceServer
 }
 
-func (s *server) AddTransaction(ctx context.Context, req *transaction.Transaction) (*transaction.TransactionResponse, error) {
+func (s *server) AddTransaction(ctx context.Context, req *transaction.Transaction) (*transaction.AddTransactionResponse, error) {
 	log.Printf("Received request: %v", req.ProtoReflect().Descriptor().FullName())
 	return database_.DBAddTransaction(req)
 }
 
-func (s *server) GetAllTransaction(ctx context.Context, req *transaction.AllTransactionQueryRequest) (*transaction.TransactionListResponse, error) {
+func (s *server) GetAllTransaction(ctx context.Context, req *transaction.GetAllTransactionRequest) (*transaction.GetAllTransactionResponse, error) {
 	return database_.DBGetAllTransaction(req)
 }
-func (s *server) FindTransactionByID(ctx context.Context, req *transaction.TransactionQueryRequest) (*transaction.TransactionResponse, error) {
+func (s *server) FindTransactionByID(ctx context.Context, req *transaction.FindTransactionByIDRequest) (*transaction.FindTransactionByIDResponse, error) {
 	log.Printf("Received request: %v", req.ProtoReflect().Descriptor().FullName())
 	return database_.DBGetTransactionByID(req)
 }
