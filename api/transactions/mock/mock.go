@@ -1,4 +1,4 @@
-package database
+package mock
 
 import (
 	"context"
@@ -9,7 +9,7 @@ import (
 
 type MockTransactionData struct{}
 
-func (m *MockTransactionData) GetTransactions(ctx context.Context) ([]transaction.Transaction, error) {
+func GetTransactions(ctx context.Context) ([]transaction.Transaction, error) {
 	return []transaction.Transaction{
 		{
 			ID:         "1",
