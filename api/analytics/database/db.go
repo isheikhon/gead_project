@@ -43,7 +43,7 @@ func DBGetTopCustomers() (*analytics.GetTopCustomersResponse, error) {
 	log.Printf("Inserting a Row in to DB")
 	var customers []*analytics.Customer
 	//Inserting a Row in to DB.
-	query := "SELECT transaction.customerid,SUM(transaction.totalprice), customer.name FROM transaction,customer GROUP BY transaction.customerid,customer.name LIMIT 5 |DESC;"
+	query := "SELECT   transaction.customerid, SUM(transaction.totalprice) AS sales, customer.name FROM  transaction,customer     GROUP BY   transaction.customerid, customer.name    ORDER BY sales DESC   LIMIT 5;"
 	rows, err := db.Query(query)
 	if err != nil {
 		panic(err)
