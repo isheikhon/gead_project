@@ -30,7 +30,7 @@ const (
 type ProductServiceClient interface {
 	AddProduct(ctx context.Context, in *Product, opts ...grpc.CallOption) (*ProductResponse, error)
 	FindProductByID(ctx context.Context, in *ProductQueryRequest, opts ...grpc.CallOption) (*ProductResponse, error)
-	GetAllProducts(ctx context.Context, in *ProductQueryRequest, opts ...grpc.CallOption) (*ProductListResponse, error)
+	GetAllProducts(ctx context.Context, in *AllProductQueryRequest, opts ...grpc.CallOption) (*ProductListResponse, error)
 }
 
 type productServiceClient struct {
@@ -59,7 +59,7 @@ func (c *productServiceClient) FindProductByID(ctx context.Context, in *ProductQ
 	return out, nil
 }
 
-func (c *productServiceClient) GetAllProducts(ctx context.Context, in *ProductQueryRequest, opts ...grpc.CallOption) (*ProductListResponse, error) {
+func (c *productServiceClient) GetAllProducts(ctx context.Context, in *AllProductQueryRequest, opts ...grpc.CallOption) (*ProductListResponse, error) {
 	out := new(ProductListResponse)
 	err := c.cc.Invoke(ctx, ProductService_GetAllProducts_FullMethodName, in, out, opts...)
 	if err != nil {
@@ -74,7 +74,7 @@ func (c *productServiceClient) GetAllProducts(ctx context.Context, in *ProductQu
 type ProductServiceServer interface {
 	AddProduct(context.Context, *Product) (*ProductResponse, error)
 	FindProductByID(context.Context, *ProductQueryRequest) (*ProductResponse, error)
-	GetAllProducts(context.Context, *ProductQueryRequest) (*ProductListResponse, error)
+	GetAllProducts(context.Context, *AllProductQueryRequest) (*ProductListResponse, error)
 	mustEmbedUnimplementedProductServiceServer()
 }
 
@@ -88,7 +88,7 @@ func (UnimplementedProductServiceServer) AddProduct(context.Context, *Product) (
 func (UnimplementedProductServiceServer) FindProductByID(context.Context, *ProductQueryRequest) (*ProductResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindProductByID not implemented")
 }
-func (UnimplementedProductServiceServer) GetAllProducts(context.Context, *ProductQueryRequest) (*ProductListResponse, error) {
+func (UnimplementedProductServiceServer) GetAllProducts(context.Context, *AllProductQueryRequest) (*ProductListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAllProducts not implemented")
 }
 func (UnimplementedProductServiceServer) mustEmbedUnimplementedProductServiceServer() {}
@@ -141,7 +141,7 @@ func _ProductService_FindProductByID_Handler(srv interface{}, ctx context.Contex
 }
 
 func _ProductService_GetAllProducts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ProductQueryRequest)
+	in := new(AllProductQueryRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -153,7 +153,7 @@ func _ProductService_GetAllProducts_Handler(srv interface{}, ctx context.Context
 		FullMethod: ProductService_GetAllProducts_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProductServiceServer).GetAllProducts(ctx, req.(*ProductQueryRequest))
+		return srv.(ProductServiceServer).GetAllProducts(ctx, req.(*AllProductQueryRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
