@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"github.com/google/uuid"
 	_ "github.com/google/uuid"
+	_ "github.com/lib/pq" // <------------ here
 	"google.golang.org/protobuf/types/known/timestamppb"
 	"log"
 	"time"

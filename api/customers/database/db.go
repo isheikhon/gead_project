@@ -3,6 +3,7 @@ package database
 import (
 	"database/sql"
 	"github.com/google/uuid"
+	_ "github.com/lib/pq" // <------------ here
 	"log"
 	"transaction/server/proto/customer"
 )
